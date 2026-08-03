@@ -12,6 +12,7 @@ const css = `
     font-family: 'Inter', sans-serif;
     overflow: hidden;
     text-align: left;
+    margin-top: -40px; /* Reduce gap above footer */
   }
   
   /* Healthcare Pattern Background */
@@ -28,7 +29,7 @@ const css = `
   }
 
   .footer__top { 
-    padding: 50px 20px 30px; 
+    padding: 20px 20px 30px; 
     position: relative;
     z-index: 2;
   }
@@ -45,16 +46,19 @@ const css = `
     padding-right: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
   }
   .footer__logo { 
     display: inline-flex; 
-    margin-bottom: 8px; 
+    margin-bottom: -50px; /* Logo ke neeche ka khali space hatane aur text ko upar laane ke liye */
+    margin-top: -30px; 
+    margin-left: -75px; 
   }
   .footer__logo img {
-    height: 80px;
+    height: 240px; 
     object-fit: contain;
+    object-position: left center;
   }
   .footer__brand-desc { 
     font-size: 13px; 
@@ -65,7 +69,7 @@ const css = `
   .footer__social { 
     display: flex; 
     gap: 10px; 
-    justify-content: center;
+    justify-content: flex-start;
   }
   .footer__social-btn {
     width: 36px; 
@@ -284,13 +288,19 @@ const css = `
     .footer__container { grid-template-columns: repeat(2, 1fr); gap: 40px; }
   }
   @media (max-width: 768px) {
-    .footer__container { grid-template-columns: 1fr; gap: 40px; }
+    .footer__container { grid-template-columns: 1fr; gap: 40px; padding: 0 10px; }
     .footer__bottom-content { flex-direction: column; text-align: center; justify-content: center; }
-    .footer__brand { padding-right: 0; text-align: center; }
-    .footer__col-title::after { left: 50%; transform: translateX(-50%); }
-    .footer__col-title { text-align: center; }
-    .footer__social { justify-content: center; }
-    .footer__contact-item { flex-direction: column; align-items: center; text-align: center; }
+    
+    /* Center the brand logo and social icons */
+    .footer__brand { padding-right: 0; align-items: flex-start; text-align: left; }
+    .footer__social { justify-content: flex-start; }
+    
+    /* Keep all other columns (Links, Contact) left-aligned for better readability */
+    .footer__col-title { text-align: left; }
+    .footer__col-title::after { left: 0; transform: none; }
+    .footer__contact-item { flex-direction: row; align-items: flex-start; text-align: left; }
+    .footer__contact-text { text-align: left; }
+    .footer__links { align-items: flex-start; text-align: left; }
   }
 `;
 
@@ -326,15 +336,16 @@ export default function FooterSection() {
 
             {/* Important Links */}
             <div>
-              <h4 className="footer__col-title">Our Initiatives</h4>
+              <h4 className="footer__col-title">Quick Links</h4>
               <ul className="footer__links">
-                <li><Link to="/health-card">Novamax Health Card</Link></li>
-                <li><Link to="/medicine">10/- Rupees Medicine</Link></li>
-                <li><Link to="/camps">Free Medical Camps</Link></li>
-                <li><Link to="/telemedicine">24x7 Telemedicine</Link></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About Us</Link></li>
+                <li><Link to="/health-card">Health Card</Link></li>
                 <li><Link to="/hospitals">Partner Hospitals</Link></li>
-                <li><Link to="/about">About Foundation</Link></li>
+                <li><Link to="/certifications">Certifications</Link></li>
                 <li><Link to="/gallery">Gallery</Link></li>
+                <li><Link to="/vendor-partnership">Vendor Partnership</Link></li>
+                <li><Link to="/contact">Contact Us</Link></li>
               </ul>
             </div>
 
@@ -387,11 +398,6 @@ export default function FooterSection() {
         <div className="footer__bottom">
           <div className="footer__bottom-content">
             <p>© {new Date().getFullYear()} NOVAMAX DIGITAL HELP FOR HUMANS FOUNDATION. All Rights Reserved.</p>
-            <div className="footer__bottom-links">
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms & Conditions</Link>
-              <Link to="/refund">Refund Policy</Link>
-            </div>
           </div>
         </div>
         

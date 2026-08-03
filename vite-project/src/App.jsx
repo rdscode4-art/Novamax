@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Header   from './components/Header';
 import HomePage from './pages/Home';
@@ -12,12 +13,24 @@ import PartnerHospitalsPage from './pages/PartnerHospitals';
 import GalleryPage from './pages/Gallery';
 // Phase 4 Pages
 import Certifications from './pages/Certifications';
-// New Vendor Partnership Page
 import VendorPartnership from './pages/VendorPartnership';
+import FloatingWidgets from './components/common/FloatingWidgets';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <>
+      <ScrollToTop />
+      <FloatingWidgets />
       <Header />
       <main>
         <Routes>
