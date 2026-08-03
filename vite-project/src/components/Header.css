@@ -1,0 +1,275 @@
+/* ── Top Bar ─────────────────────────────────────────── */
+.header__topbar {
+  background-color: #1a3a6b;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 24px;
+  font-size: 12px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.header__topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header__topbar-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  padding-right: 20px;
+}
+
+.header__topbar-item:last-child {
+  border-right: none;
+}
+
+.header__topbar-icon {
+  color: #4caf50;
+  font-size: 11px;
+}
+
+.header__topbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.header__toll-free {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.header__toll-icon {
+  color: #f4a830;
+  font-size: 14px;
+}
+
+.header__toll-number {
+  color: #f4a830;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.header__toll-number:hover {
+  text-decoration: underline;
+}
+
+/* ── Main Nav ────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header__main {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.85));
+  backdrop-filter: var(--glass-blur, blur(12px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(12px));
+  display: flex;
+  align-items: center;
+  padding: 0px 24px;
+  gap: 24px;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.3));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Logo */
+.header__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header__logo-img {
+  height: 70px;
+  max-height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.header__logo-img:hover {
+  transform: scale(1.02);
+}
+
+/* Nav */
+.header__nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.header__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.header__nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.header__nav-link {
+  text-decoration: none;
+  color: var(--text, #4a5568);
+  font-family: var(--sans, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-xl, 24px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.header__nav-link:hover,
+.header__nav-link:focus {
+  color: var(--primary, #1a3a6b);
+  background: rgba(26, 58, 107, 0.05);
+  outline: none;
+}
+
+.header__nav-link--active {
+  color: var(--primary, #1a3a6b);
+  font-weight: 600;
+  background: rgba(26, 58, 107, 0.08);
+}
+
+/* Auth Buttons */
+.header__auth {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border-radius: var(--radius-xl, 24px);
+  font-family: var(--heading, 'Poppins', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  outline: none;
+}
+
+.header__btn--login {
+  background: transparent;
+  border: 1.5px solid var(--primary, #1a3a6b);
+  color: var(--primary, #1a3a6b);
+}
+
+.header__btn--login:hover {
+  background: var(--primary, #1a3a6b);
+  color: #fff;
+  box-shadow: 0 4px 12px var(--primary-glow, rgba(26,58,107,0.3));
+  transform: translateY(-2px);
+}
+
+.header__btn--register {
+  background: var(--secondary, #4caf50);
+  border: 1.5px solid var(--secondary, #4caf50);
+  color: #fff;
+  box-shadow: 0 4px 12px var(--secondary-glow, rgba(76,175,80,0.3));
+}
+
+.header__btn--register:hover {
+  background: #43a047;
+  border-color: #43a047;
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Hamburger (mobile) */
+.header__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+}
+
+.header__hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #1a3a6b;
+  border-radius: 2px;
+  transition: transform 0.2s;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .header__hamburger {
+    display: flex;
+  }
+
+  .header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 12px 0;
+  }
+
+  .header__nav--open {
+    display: flex;
+  }
+
+  .header__nav-list {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    align-items: flex-start;
+    padding: 0 16px;
+  }
+
+  .header__nav-link {
+    padding: 10px 6px;
+    font-size: 15px;
+    width: 100%;
+    display: block;
+  }
+
+  .header__auth {
+    display: none;
+  }
+
+  .header__topbar {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__main {
+    padding: 10px 16px;
+  }
+}

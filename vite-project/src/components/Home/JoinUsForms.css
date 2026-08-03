@@ -1,0 +1,272 @@
+.join-us-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.join-us-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.join-us-header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  color: #0A2E73;
+  margin-bottom: 12px;
+}
+
+.join-us-header p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+.join-us-toggle {
+  display: inline-flex;
+  background: #f0f4ff;
+  padding: 6px;
+  border-radius: 50px;
+  gap: 8px;
+}
+
+.ju-toggle-btn {
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #555;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ju-toggle-btn:hover {
+  color: #1A2980;
+}
+
+.ju-toggle-btn--active {
+  background: #fff;
+  color: #1A2980;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.join-us-form-wrapper {
+  background: var(--glass-bg, #fff);
+  backdrop-filter: var(--glass-blur, blur(12px));
+  padding: 48px;
+  border-radius: var(--radius-xl, 24px);
+  box-shadow: var(--shadow-premium);
+  border: 1px solid var(--glass-border);
+  position: relative;
+}
+
+.ju-form-title {
+  font-family: var(--heading, 'Poppins', sans-serif);
+  font-size: 28px;
+  color: var(--text-h);
+  margin-bottom: 32px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+}
+
+.ju-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.ju-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.ju-full-width {
+  grid-column: 1 / -1;
+}
+
+.ju-input-group label {
+  font-family: var(--sans, 'Inter', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-left: 4px;
+}
+
+.ju-input-group input,
+.ju-input-group select,
+.ju-input-group textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--bg, #f8fafc);
+  font-family: var(--sans, 'Inter', sans-serif);
+  font-size: 15px;
+  color: var(--text-h);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ju-input-group input:focus,
+.ju-input-group select:focus,
+.ju-input-group textarea:focus {
+  outline: none;
+  border-color: var(--primary, #1a3a6b);
+  box-shadow: 0 0 0 4px var(--primary-glow, rgba(26,58,107,0.1));
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.ju-submit-btn {
+  width: 100%;
+  padding: 18px;
+  background: var(--secondary, #4caf50);
+  color: #fff;
+  font-family: var(--heading, 'Poppins', sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md, 12px);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px var(--secondary-glow);
+}
+
+.ju-submit-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.4);
+  background: #43a047;
+}
+
+@media (max-width: 768px) {
+  .join-us-header h2 {
+    font-size: 26px;
+  }
+  .join-us-header p {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .ju-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .join-us-form-wrapper {
+    padding: 24px 16px;
+  }
+  .join-us-toggle {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 20px;
+    padding: 8px;
+  }
+  .ju-toggle-btn {
+    width: 100%;
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .ju-form-title {
+    font-size: 20px;
+  }
+}
+
+.ju-photo-upload-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: #f8fafc;
+  padding: 20px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.ju-photo-frame {
+  width: 120px;
+  height: 150px;
+  background: #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.ju-photo-placeholder {
+  text-align: center;
+  color: #64748b;
+}
+.ju-photo-placeholder span {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
+}
+.ju-photo-placeholder p {
+  font-size: 12px;
+  margin: 0;
+  font-weight: 700;
+}
+.ju-photo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ju-photo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ju-photo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 160px;
+}
+.ju-photo-btn:hover {
+  background: #1d4ed8;
+}
+.ju-photo-btn--outline {
+  background: transparent;
+  color: #2563eb;
+  border: 1.5px solid #2563eb;
+}
+.ju-photo-btn--outline:hover {
+  background: #eff6ff;
+}
+
+.ju-file-input {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+.ju-file-input::file-selector-button {
+  background: #f0f4ff;
+  color: #1A2980;
+  border: 1px solid #c3d2ff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.ju-file-input::file-selector-button:hover {
+  background: #1A2980;
+  color: #fff;
+}
