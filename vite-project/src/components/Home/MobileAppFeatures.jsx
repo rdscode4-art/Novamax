@@ -19,7 +19,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 40px;
     font-weight: 700;
-    color: #0A2E73;
+    color: #1a3a6b;
     margin-bottom: 16px;
   }
   .app-features__subtitle {

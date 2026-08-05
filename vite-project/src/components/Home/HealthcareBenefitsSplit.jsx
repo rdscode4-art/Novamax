@@ -82,7 +82,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 48px;
     font-weight: 700;
-    color: #0A2E73;
+    color: #1a3a6b;
     line-height: 1.2;
     margin-bottom: 24px;
   }
@@ -106,7 +106,7 @@ const css = `
     width: 48px;
     height: 48px;
     background: #F8FAFD;
-    color: #1F5EFF;
+    color: #2563a8;
     border-radius: 12px;
     display: flex;
     align-items: center;

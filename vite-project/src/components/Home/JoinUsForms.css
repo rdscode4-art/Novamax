@@ -12,7 +12,7 @@
 .join-us-header h2 {
   font-family: 'Poppins', sans-serif;
   font-size: 32px;
-  color: #0A2E73;
+  color: #1a3a6b;
   margin-bottom: 12px;
 }
 
@@ -44,12 +44,12 @@
 }
 
 .ju-toggle-btn:hover {
-  color: #1A2980;
+  color: #1a3a6b;
 }
 
 .ju-toggle-btn--active {
   background: #fff;
-  color: #1A2980;
+  color: #1a3a6b;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -228,7 +228,7 @@
   justify-content: center;
   gap: 8px;
   padding: 10px 16px;
-  background: #2563eb;
+  background: #2563a8;
   color: #fff;
   border-radius: 8px;
   font-size: 14px;
@@ -242,8 +242,8 @@
 }
 .ju-photo-btn--outline {
   background: transparent;
-  color: #2563eb;
-  border: 1.5px solid #2563eb;
+  color: #2563a8;
+  border: 1.5px solid #2563a8;
 }
 .ju-photo-btn--outline:hover {
   background: #eff6ff;
@@ -256,7 +256,7 @@
 }
 .ju-file-input::file-selector-button {
   background: #f0f4ff;
-  color: #1A2980;
+  color: #1a3a6b;
   border: 1px solid #c3d2ff;
   padding: 8px 16px;
   border-radius: 8px;
@@ -267,6 +267,6 @@
   font-family: 'Inter', sans-serif;
 }
 .ju-file-input::file-selector-button:hover {
-  background: #1A2980;
+  background: #1a3a6b;
   color: #fff;
 }

@@ -1,4 +1,9 @@
 import React from 'react';
+import { BadgeCheck, ShieldCheck } from 'lucide-react';
+import logoImg from '../../assets/image.png';
+import mcaImage from '../../assets/01.jpeg';
+import nitiImage from '../../assets/02.jpeg';
+import section12AImage from '../../assets/03.jpeg';
 
 const css = `
   .trust-section {
@@ -23,7 +28,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 28px;
     font-weight: 800;
-    color: #1a3b70;
+    color: #1a3a6b;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -81,7 +86,7 @@ const css = `
     fill: #fff;
   }
   
-  .icon-blue { background: linear-gradient(135deg, #1a3b70, #2b619e); }
+  .icon-blue { background: linear-gradient(135deg, #1a3a6b, #1e4d8c); }
   .icon-green { background: linear-gradient(135deg, #2f7a35, #43a047); }
   .icon-orange { background: linear-gradient(135deg, #d3601a, #f47a20); }
   .icon-yellow { background: linear-gradient(135deg, #a67c00, #c89600); }
@@ -90,7 +95,7 @@ const css = `
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 700;
-    color: #1a3b70;
+    color: #1a3a6b;
     margin-bottom: 8px;
     line-height: 1.3;
   }
@@ -111,7 +116,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: 800;
-    color: #1a3b70;
+    color: #1a3a6b;
     margin-bottom: 4px;
     line-height: 1;
   }
@@ -160,7 +165,7 @@ const css = `
     width: 100%;
     max-width: 650px;
     margin: 0 auto;
-    border: 2px solid #1a3b70;
+    border: 2px solid #1a3a6b;
     border-radius: 16px;
     position: relative;
     padding: 30px 12px 16px 12px;
@@ -173,7 +178,7 @@ const css = `
     top: -18px;
     left: 50%;
     transform: translateX(-50%);
-    background: #1a3b70;
+    background: #1a3a6b;
     color: #fff;
     padding: 6px 20px;
     border-radius: 30px;
@@ -217,7 +222,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 800;
-    color: #1a3b70;
+    color: #1a3a6b;
     margin-bottom: 2px;
     line-height: 1.1;
   }
@@ -281,7 +286,7 @@ const css = `
     font-weight: 700;
     line-height: 1.2;
   }
-  .text-blue { color: #1a3b70; }
+  .text-blue { color: #1a3a6b; }
   .text-green { color: #2f7a35; }
   .text-orange { color: #d3601a; }
   .text-yellow { color: #a67c00; }
@@ -343,31 +348,6 @@ const css = `
 `;
 
 // Common SVG components
-const ShieldSVG = ({ className }) => (
-  <svg viewBox="0 0 100 120" className={className}>
-    <path d="M50 10 L10 25 L10 60 C10 85 30 105 50 115 C70 105 90 85 90 60 L90 25 Z" fill="#1a3b70" />
-    <path d="M50 15 L15 28 L15 58 C15 79 32 96 50 105 C68 96 85 79 85 58 L85 28 Z" fill="#fff" />
-    <path d="M50 20 L20 31 L20 56 C20 74 34 89 50 96 C66 89 80 74 80 56 L80 31 Z" fill="#1a3b70" />
-    <rect x="35" y="45" width="6" height="25" fill="#fff" />
-    <rect x="47" y="45" width="6" height="25" fill="#fff" />
-    <rect x="59" y="45" width="6" height="25" fill="#fff" />
-    <polygon points="50,30 30,42 70,42" fill="#fff" />
-    <rect x="30" y="72" width="40" height="4" fill="#fff" />
-    <circle cx="50" cy="100" r="10" fill="#1a3b70" />
-    <circle cx="50" cy="100" r="8" fill="#fff" />
-    <circle cx="50" cy="100" r="6" fill="#1a3b70" />
-    <path d="M47 100 L49 102 L54 97" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M8 80 C 15 95 30 110 40 115" fill="none" stroke="#2f7a35" strokeWidth="3" strokeLinecap="round" />
-    <path d="M92 80 C 85 95 70 110 60 115" fill="none" stroke="#2f7a35" strokeWidth="3" strokeLinecap="round" />
-  </svg>
-);
-
-const McaIcon = () => (
-  <svg viewBox="0 0 24 24">
-    <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
-  </svg>
-);
-
 const NitiIcon = () => (
   <svg viewBox="0 0 24 24">
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
@@ -386,27 +366,8 @@ const Section80GIcon = () => (
   </svg>
 );
 
-const CheckBadge = () => (
-  <svg viewBox="0 0 24 24">
-    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-  </svg>
-);
-
 const CheckIcon = () => (
   <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-);
-
-const RibbonSeal = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className}>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-5.5l-3.5-3.5 1.41-1.41L10 11.67l6.59-6.59L18 6.5l-8 8z" fill="currentColor"/>
-    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 20.93C7.57 20.67 4.5 16.34 4.5 11V6.3l7.5-3.33 7.5 3.33V11c0 5.34-3.07 9.67-7.5 10.93z" fill="currentColor" opacity="0.3"/>
-  </svg>
-);
-
-const CircleCheckIcon = ({ style }) => (
-  <svg viewBox="0 0 24 24" style={style}>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor" />
-  </svg>
 );
 
 export default function RegistrationBar() {
@@ -423,29 +384,33 @@ export default function RegistrationBar() {
 
         <div className="trust-grid">
           {/* Shield & Brand */}
-          <div className="trust-card">
-            <ShieldSVG className="trust-shield-img" />
-            <div className="trust-shield-brand">NOVAMAX</div>
-            <div className="trust-shield-sub">DIGITAL HELP FOR HUMANS FOUNDATION</div>
+          <div className="trust-card" style={{ justifyContent: 'center' }}>
+            <img src={logoImg} alt="Novamax Logo" style={{ width: '100%', maxWidth: '140px', height: 'auto' }} />
           </div>
 
           {/* MCA */}
           <div className="trust-card">
-            <div className="trust-icon-wrapper icon-blue"><McaIcon /></div>
+            <div style={{ width: '100%', height: '120px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+              <img src={mcaImage} alt="MCA Certificate" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.08)' }} />
+            </div>
             <div className="trust-card-title">Ministry of Corporate Affairs</div>
             <div className="trust-card-sub">Registered under Government of India</div>
           </div>
 
           {/* NITI Aayog */}
           <div className="trust-card">
-            <div className="trust-icon-wrapper icon-green"><NitiIcon /></div>
+            <div style={{ width: '100%', height: '120px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+              <img src={nitiImage} alt="NITI Aayog Certificate" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.08)' }} />
+            </div>
             <div className="trust-card-title">NGO DARPAN / e-Anudan</div>
             <div className="trust-card-sub">Registered on NITI Aayog, Govt. of India</div>
           </div>
 
           {/* 12A */}
           <div className="trust-card">
-            <div className="trust-icon-wrapper icon-orange"><Section12AIcon /></div>
+            <div style={{ width: '100%', height: '120px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+              <img src={section12AImage} alt="Section 12A Certificate" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.08)' }} />
+            </div>
             <div className="trust-card-title">Section 12A</div>
             <div className="trust-card-sub">Approved under Income Tax Act, 1961</div>
           </div>
@@ -459,7 +424,7 @@ export default function RegistrationBar() {
         </div>
 
         <div className="trust-footer">
-          <CheckBadge />
+          <BadgeCheck style={{ width: '24px', height: '24px', color: '#2f7a35' }} />
           <span className="trust-footer-text">We are a Registered & Recognized Non-Profit Organization. Your trust empowers our mission to serve humanity.</span>
         </div>
       </div>
@@ -470,33 +435,31 @@ export default function RegistrationBar() {
         <div className="legal-mobile">
           
           <div className="mobile-badge">
-            <CircleCheckIcon style={{ width: '16px', height: '16px', color: '#fff' }} />
+            <ShieldCheck style={{ width: '16px', height: '16px', color: '#fff' }} />
             LEGAL REGISTRATIONS
           </div>
 
           <div className="mobile-body">
             {/* Left Side: Shield */}
             <div className="mobile-left">
-              <ShieldSVG className="mobile-shield-img" />
-              <div className="mobile-brand">NOVAMAX</div>
-              <div className="mobile-sub-brand">DIGITAL HELP FOR HUMANS FOUNDATION</div>
+              <img src={logoImg} alt="Novamax Logo" style={{ width: '100%', maxWidth: '90px', height: 'auto' }} />
             </div>
 
-            {/* Right Side: List Items */}
             <div className="mobile-right">
-              
               <div className="mobile-row">
-                <div className="mobile-icon-circle icon-blue"><McaIcon /></div>
+                <div style={{ width: '48px', height: '48px', flexShrink: 0, marginRight: '12px', background: '#fff', padding: '4px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                  <img src={mcaImage} alt="MCA Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 <div className="mobile-text">
                   <span className="mobile-text-small">Registered under</span>
                   <span className="mobile-text-main text-blue">Ministry of Corporate Affairs (MCA)</span>
                   <span className="mobile-text-small">Government of India</span>
                 </div>
-                <div className="mobile-check"><CheckIcon /></div>
               </div>
-
               <div className="mobile-row">
-                <div className="mobile-icon-circle icon-green"><NitiIcon /></div>
+                <div style={{ width: '48px', height: '48px', flexShrink: 0, marginRight: '12px', background: '#fff', padding: '4px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                  <img src={nitiImage} alt="NITI Aayog Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 <div className="mobile-text">
                   <span className="mobile-text-small">Registered on</span>
                   <span className="mobile-text-main text-green">NGO DARPAN / e-Anudan</span>
@@ -506,7 +469,9 @@ export default function RegistrationBar() {
               </div>
 
               <div className="mobile-row">
-                <div className="mobile-icon-circle icon-orange"><Section12AIcon /></div>
+                <div style={{ width: '48px', height: '48px', flexShrink: 0, marginRight: '12px', background: '#fff', padding: '4px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                  <img src={section12AImage} alt="Section 12A Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 <div className="mobile-text">
                   <span className="mobile-text-small">Approved under</span>
                   <span className="mobile-text-main text-orange">Section 12A</span>
@@ -529,7 +494,7 @@ export default function RegistrationBar() {
           </div>
 
           <div className="mobile-footer">
-            <RibbonSeal className="mobile-footer-icon" />
+            <BadgeCheck style={{ width: '36px', height: '36px', color: '#2f7a35', flexShrink: 0 }} />
             <div className="mobile-footer-text-wrap">
               <div className="mobile-footer-title">We are a Registered & Recognized Non-Profit Organization</div>
               <div className="mobile-footer-sub">Your trust empowers our mission to serve humanity.</div>

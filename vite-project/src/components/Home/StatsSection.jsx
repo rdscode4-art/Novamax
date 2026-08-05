@@ -1,3 +1,7 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useInView } from 'framer-motion';
+import dashboardService from '../../services/dashboardService';
+
 const css = `
   .stats {
     background: linear-gradient(90deg, #1a3a6b 0%, #0d2247 100%);
@@ -74,14 +78,93 @@ const css = `
   }
 `;
 
-const stats = [
-  { icon: '👥', number: '50,000+',    label: 'Happy Members' },
-  { icon: '🏥', number: '500+',       label: 'Partner Hospitals' },
-  { icon: '💰', number: '₹10 Crore+', label: 'Healthcare Savings' },
-  { icon: '🩺', number: '2 Lakh+',    label: 'Treatments Provided' },
+const defaultStats = [
+  { icon: '👥', endVal: 50000, suffix: '+',            label: 'Happy Members' },
+  { icon: '🏥', endVal: 500,   suffix: '+',            label: 'Partner Hospitals' },
+  { icon: '💰', endVal: 10,    prefix: '₹', suffix: ' Crore+', label: 'Healthcare Savings' },
+  { icon: '🩺', endVal: 2,     suffix: ' Lakh+',       label: 'Treatments Provided' },
 ];
 
+function Counter({ endVal, prefix = '', suffix = '' }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (!isInView) return;
+    
+    let startTime;
+    const duration = 2000;
+    
+    const animate = (time) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      
+      setCount(Math.floor(easeProgress * endVal));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }, [isInView, endVal]);
+
+  return <span ref={ref}>{prefix}{count.toLocaleString('en-IN')}{suffix}</span>;
+}
+
+
 export default function StatsSection() {
+  const [stats, setStats] = useState(defaultStats);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await dashboardService.getStats();
+        
+        if (response.success && response.data) {
+          const apiStats = [
+            { 
+              icon: '👥', 
+              endVal: response.data.totalMembers || 50000, 
+              suffix: '+', 
+              label: 'Happy Members' 
+            },
+            { 
+              icon: '🏥', 
+              endVal: response.data.totalHospitals || 500, 
+              suffix: '+', 
+              label: 'Partner Hospitals' 
+            },
+            { 
+              icon: '💰', 
+              endVal: response.data.healthcareSavings || 10, 
+              prefix: '₹', 
+              suffix: ' Crore+', 
+              label: 'Healthcare Savings' 
+            },
+            { 
+              icon: '🩺', 
+              endVal: response.data.treatmentsProvided || 2, 
+              suffix: ' Lakh+', 
+              label: 'Treatments Provided' 
+            },
+          ];
+          setStats(apiStats);
+        }
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+        // Keep default stats on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+  
   return (
     <>
       <style>{css}</style>
@@ -92,7 +175,9 @@ export default function StatsSection() {
               <div key={i} className={`stats__item ${i >= stats.length ? 'stats__item--dup' : ''}`}>
                 <div className="stats__icon">{s.icon}</div>
                 <div className="stats__text">
-                  <span className="stats__number">{s.number}</span>
+                  <span className="stats__number">
+                    <Counter endVal={s.endVal} prefix={s.prefix} suffix={s.suffix} />
+                  </span>
                   <span className="stats__label">{s.label}</span>
                 </div>
               </div>

@@ -5,12 +5,13 @@
 }
 
 .vendor-hero {
-  background: linear-gradient(135deg, #1A2980 0%, #26D0CE 100%);
+  background: linear-gradient(135deg, #1a3a6b 0%, #26D0CE 100%);
   color: white;
   text-align: center;
   padding: 80px 20px;
   position: relative;
   overflow: hidden;
+  margin-top: 0;
 }
 
 .vendor-hero::before {
@@ -121,7 +122,7 @@
 
 .vendor-form-header h2 {
   font-family: 'Poppins', sans-serif;
-  color: #1A2980;
+  color: #1a3a6b;
   font-size: 28px;
   margin: 0 0 8px;
 }
@@ -180,7 +181,7 @@
 .v-submit-btn {
   grid-column: 1 / -1;
   padding: 16px;
-  background: linear-gradient(135deg, #1A2980 0%, #26D0CE 100%);
+  background: linear-gradient(135deg, #1a3a6b 0%, #26D0CE 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -198,9 +199,19 @@
 }
 
 @media (max-width: 768px) {
-  .vendor-hero h1 { font-size: 32px; }
+  .vendor-hero { padding: 60px 16px; }
+  .vendor-hero h1 { font-size: 28px; margin-bottom: 12px; }
+  .vendor-hero p { font-size: 15px; }
   .vendor-form-section { padding: 24px 16px; }
   .v-form-grid { grid-template-columns: 1fr; gap: 16px; }
   .v-full-width { grid-column: 1; }
   .v-submit-btn { grid-column: 1; }
+  .vendor-container { margin: -20px auto 24px; padding: 0 12px; }
+}
+
+@media (max-width: 480px) {
+  .vendor-hero { padding: 48px 14px; }
+  .vendor-hero h1 { font-size: 22px; }
+  .vendor-hero p { font-size: 14px; }
+  .vendor-categories { grid-template-columns: 1fr; }
 }

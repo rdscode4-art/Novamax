@@ -9,10 +9,12 @@ import WorkWithUs from '../components/Home/WorkWithUs';
 import MemberDashboard from '../components/Home/MemberDashboard';
 import FooterBanner from '../components/Home/FooterBanner';
 import FooterSection from '../components/Home/FooterSection';
+import MedicalBackground from '../components/Home/MedicalBackground';
 
 export default function HomePage() {
   return (
     <>
+      <MedicalBackground />
       <HeroSection />
       <StatsSection />
       <RegistrationBar />

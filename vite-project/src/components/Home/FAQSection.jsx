@@ -18,7 +18,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 40px;
     font-weight: 700;
-    color: #0A2E73;
+    color: #1a3a6b;
     margin-bottom: 16px;
   }
   .faq__subtitle {
@@ -40,7 +40,7 @@ const css = `
   }
   .faq__item--active {
     background: #fff;
-    border-color: #1F5EFF;
+    border-color: #2563a8;
     box-shadow: 0 8px 24px rgba(31,94,255,0.08);
   }
   .faq__question {
@@ -56,7 +56,7 @@ const css = `
   }
   .faq__icon {
     font-size: 24px;
-    color: #1F5EFF;
+    color: #2563a8;
     transition: transform 0.3s;
   }
   .faq__item--active .faq__icon {

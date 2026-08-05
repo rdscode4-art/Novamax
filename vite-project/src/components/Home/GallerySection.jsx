@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import galleryService from '../../services/galleryService';
 
 const css = `
   .gallery {
@@ -78,6 +79,22 @@ const css = `
     100% { transform: translateX(calc(-50% - 8px)); }
   }
 
+  .gallery__track--reverse {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    animation: scroll-right-gallery 30s linear infinite;
+  }
+  
+  .gallery__track--reverse:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-right-gallery {
+    0% { transform: translateX(calc(-50% - 8px)); }
+    100% { transform: translateX(0); }
+  }
+
   .gallery__item {
     display: flex;
     flex-direction: column;
@@ -116,6 +133,18 @@ const css = `
     margin: 0;
     line-height: 1.3;
   }
+
+  @media (max-width: 768px) {
+    .gallery { padding: 32px 16px; }
+    .gallery__item { width: 170px; }
+    .gallery__img-box { height: 110px; }
+  }
+  @media (max-width: 480px) {
+    .gallery { padding: 24px 12px; }
+    .gallery__item { width: 140px; }
+    .gallery__img-box { height: 90px; }
+    .gallery__item-label { font-size: 11px; }
+  }
 `;
 
 const items = [
@@ -128,24 +157,78 @@ const items = [
 ];
 
 export default function GallerySection() {
+  const [galleryItems, setGalleryItems] = useState(items);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const data = await galleryService.getGallery({ status: 'active' });
+        if (data.data && data.data.length > 0) {
+          const formattedItems = data.data.map(item => ({
+            img: item.image || item.img,
+            label: item.title || item.label
+          }));
+          setGalleryItems(formattedItems);
+        }
+      } catch (error) {
+        console.error('Error fetching gallery:', error);
+        // Keep default items on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <style>{css}</style>
+        <section className="gallery">
+          <div className="gallery__container">
+            <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}>
+              Loading gallery...
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+  
   return (
     <>
       <style>{css}</style>
       <section className="gallery">
         <div className="gallery__container">
           
-          <div className="gallery__header-wrapper">
-            <div className="gallery__header">
-              <h2 className="gallery__title">Gallery</h2>
-            </div>
-            <button className="gallery__view-all">View All</button>
+          <div className="section-heading">
+            <div className="section-heading__label">Our Moments</div>
+            <h2 className="section-heading__title">Gallery</h2>
+            <div className="section-heading__underline"></div>
+            <p className="section-heading__subtitle">Glimpses from our healthcare initiatives, medical camps, and community events.</p>
           </div>
 
           <div className="gallery__slider">
             <div className="gallery__track">
               {/* Render twice for seamless infinite scrolling */}
-              {[...items, ...items].map((item, i) => (
+              {[...galleryItems, ...galleryItems].map((item, i) => (
                 <div key={i} className="gallery__item">
+                  <div className="gallery__img-box">
+                    <img src={item.img} alt={item.label} className="gallery__img" />
+                  </div>
+                  <p className="gallery__item-label">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="gallery__slider" style={{ marginTop: '20px' }}>
+            <div className="gallery__track--reverse">
+              {/* Reverse items for variation and seamless infinite scrolling */}
+              {[...galleryItems].reverse().concat([...galleryItems].reverse()).map((item, i) => (
+                <div key={`rev-${i}`} className="gallery__item">
                   <div className="gallery__img-box">
                     <img src={item.img} alt={item.label} className="gallery__img" />
                   </div>

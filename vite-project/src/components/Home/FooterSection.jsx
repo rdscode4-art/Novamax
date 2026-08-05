@@ -265,6 +265,21 @@ const css = `
     margin: 0; 
     letter-spacing: 0.3px;
   }
+  .footer__credit {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+  }
+  .footer__credit a {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .footer__credit a:hover {
+    color: #81c784;
+    text-decoration: underline;
+  }
   .footer__bottom-links { 
     display: flex; 
     gap: 20px; 
@@ -291,11 +306,13 @@ const css = `
     .footer__container { grid-template-columns: 1fr; gap: 40px; padding: 0 10px; }
     .footer__bottom-content { flex-direction: column; text-align: center; justify-content: center; }
     
-    /* Center the brand logo and social icons */
     .footer__brand { padding-right: 0; align-items: flex-start; text-align: left; }
     .footer__social { justify-content: flex-start; }
     
-    /* Keep all other columns (Links, Contact) left-aligned for better readability */
+    /* Logo size kam kro mobile me */
+    .footer__logo { margin-left: -20px; margin-top: -10px; margin-bottom: -20px; }
+    .footer__logo img { height: 110px; }
+
     .footer__col-title { text-align: left; }
     .footer__col-title::after { left: 0; transform: none; }
     .footer__contact-item { flex-direction: row; align-items: flex-start; text-align: left; }
@@ -305,9 +322,9 @@ const css = `
 `;
 
 // Simple Social Icons
-const FbIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M12 2.04c-5.5 0-10 4.48-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.54-4.5-10.02-10-10.02z"/></svg>;
-const IgIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.85 3.93 2.3 7.15 2.15c1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07c-4.27.2-6.78 2.71-6.98 6.98C0 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.27 2.71 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.27-.2 6.78-2.71 6.98-6.98C23.99 15.67 24 15.26 24 12s-.01-3.67-.07-4.95c-.2-4.27-2.71-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.44a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>;
-const YtIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M21.58 7.19a2.71 2.71 0 0 0-1.9-1.92C17.99 4.8 12 4.8 12 4.8s-5.99 0-7.68.47a2.71 2.71 0 0 0-1.9 1.92C1.95 8.89 1.95 12 1.95 12s0 3.11.47 4.81a2.71 2.71 0 0 0 1.9 1.92C5.99 19.2 12 19.2 12 19.2s5.99 0 7.68-.47a2.71 2.71 0 0 0 1.9-1.92c.47-1.7.47-4.81.47-4.81s0-3.11-.47-4.81zM9.98 15.2v-6.4l6.15 3.2-6.15 3.2z"/></svg>;
+const FbIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M12 2.04c-5.5 0-10 4.48-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.54-4.5-10.02-10-10.02z" /></svg>;
+const IgIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.85 3.93 2.3 7.15 2.15c1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07c-4.27.2-6.78 2.71-6.98 6.98C0 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.27 2.71 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.27-.2 6.78-2.71 6.98-6.98C23.99 15.67 24 15.26 24 12s-.01-3.67-.07-4.95c-.2-4.27-2.71-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.44a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z" /></svg>;
+const YtIcon = () => <svg viewBox="0 0 24 24" className="social-svg"><path d="M21.58 7.19a2.71 2.71 0 0 0-1.9-1.92C17.99 4.8 12 4.8 12 4.8s-5.99 0-7.68.47a2.71 2.71 0 0 0-1.9 1.92C1.95 8.89 1.95 12 1.95 12s0 3.11.47 4.81a2.71 2.71 0 0 0 1.9 1.92C5.99 19.2 12 19.2 12 19.2s5.99 0 7.68-.47a2.71 2.71 0 0 0 1.9-1.92c.47-1.7.47-4.81.47-4.81s0-3.11-.47-4.81zM9.98 15.2v-6.4l6.15 3.2-6.15 3.2z" /></svg>;
 
 
 export default function FooterSection() {
@@ -315,10 +332,10 @@ export default function FooterSection() {
     <>
       <style>{css}</style>
       <footer className="footer">
-        
+
         <div className="footer__top">
           <div className="footer__container">
-            
+
             {/* Brand */}
             <div className="footer__brand">
               <div className="footer__logo">
@@ -328,9 +345,9 @@ export default function FooterSection() {
                 Dedicated to providing accessible healthcare, free medicines, and emergency medical support to underserved communities across India.
               </p>
               <div className="footer__social">
-                <a href="#" className="footer__social-btn"><FbIcon /></a>
-                <a href="#" className="footer__social-btn"><IgIcon /></a>
-                <a href="#" className="footer__social-btn"><YtIcon /></a>
+                <a href="https://www.facebook.com/novamaxfoundation" target="_blank" rel="noopener noreferrer" className="footer__social-btn"><FbIcon /></a>
+                <a href="https://www.instagram.com/novamaxfoundation" target="_blank" rel="noopener noreferrer" className="footer__social-btn"><IgIcon /></a>
+                <a href="https://www.youtube.com/@novamaxfoundation" target="_blank" rel="noopener noreferrer" className="footer__social-btn"><YtIcon /></a>
               </div>
             </div>
 
@@ -340,12 +357,10 @@ export default function FooterSection() {
               <ul className="footer__links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/health-card">Health Card</Link></li>
                 <li><Link to="/hospitals">Partner Hospitals</Link></li>
                 <li><Link to="/certifications">Certifications</Link></li>
                 <li><Link to="/gallery">Gallery</Link></li>
                 <li><Link to="/vendor-partnership">Vendor Partnership</Link></li>
-                <li><Link to="/contact">Contact Us</Link></li>
               </ul>
             </div>
 
@@ -357,7 +372,7 @@ export default function FooterSection() {
                   <div className="footer__contact-icon"><MapPin size={18} /></div>
                   <div className="footer__contact-text">
                     <strong>Head Office</strong>
-                    Bhaneda, Bijnor Road,<br/>
+                    Bhaneda, Bijnor Road,<br />
                     Najibabad, Bijnor, UP - 246763
                   </div>
                 </li>
@@ -365,7 +380,7 @@ export default function FooterSection() {
                   <div className="footer__contact-icon"><PhoneCall size={18} /></div>
                   <div className="footer__contact-text">
                     <strong>Helpline Numbers</strong>
-                    <a href="tel:917456022040">+91 74560 22040</a><br/>
+                    <a href="tel:917456022040">+91 74560 22040</a><br />
                     <a href="tel:918630089570">+91 86300 89570</a>
                   </div>
                 </li>
@@ -387,7 +402,7 @@ export default function FooterSection() {
                 <p className="footer__action-text">
                   Your support helps us reach more families in need of urgent medical care. Join our mission to build a healthier society.
                 </p>
-                <Link to="/join" className="footer__btn">Become a Volunteer</Link>
+                <Link to="/contact" className="footer__btn">Become a Volunteer</Link>
               </div>
             </div>
 
@@ -398,9 +413,17 @@ export default function FooterSection() {
         <div className="footer__bottom">
           <div className="footer__bottom-content">
             <p>© {new Date().getFullYear()} NOVAMAX DIGITAL HELP FOR HUMANS FOUNDATION. All Rights Reserved.</p>
+            <div className="footer__bottom-links">
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms">Terms & Conditions</Link>
+            </div>
+            <p className="footer__credit">
+              Maintained & Developed by{' '}
+              <a href="https://www.rdsitservices.com" target="_blank" rel="noopener noreferrer">RDS</a>
+            </p>
           </div>
         </div>
-        
+
       </footer>
     </>
   );

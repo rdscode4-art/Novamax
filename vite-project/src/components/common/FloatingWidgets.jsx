@@ -145,13 +145,13 @@ export default function FloatingWidgets() {
         
         {/* Social Icons - Left Side (Hides at Footer) */}
         <div className={`floating-social ${socialVisible ? 'floating-widgets--visible' : 'floating-widgets--hidden'}`}>
-          <a href="#" className="floating-social-btn" aria-label="Facebook">
+          <a href="https://www.facebook.com/novamaxfoundation" target="_blank" rel="noopener noreferrer" className="floating-social-btn" aria-label="Facebook">
             <FbIcon />
           </a>
-          <a href="#" className="floating-social-btn" aria-label="Instagram">
+          <a href="https://www.instagram.com/novamaxfoundation" target="_blank" rel="noopener noreferrer" className="floating-social-btn" aria-label="Instagram">
             <IgIcon />
           </a>
-          <a href="#" className="floating-social-btn" aria-label="YouTube">
+          <a href="https://www.youtube.com/@novamaxfoundation" target="_blank" rel="noopener noreferrer" className="floating-social-btn" aria-label="YouTube">
             <YtIcon />
           </a>
         </div>

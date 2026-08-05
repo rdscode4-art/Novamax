@@ -7,7 +7,7 @@ import PageHero from '../components/common/PageHero';
 const css = `
   .contact-page__map {
     width: 100%;
-    height: 400px;
+    height: 420px;
     background: #e0e0e0;
     display: flex;
     align-items: center;
@@ -15,6 +15,19 @@ const css = `
     color: #666;
     font-size: 18px;
     font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+  .contact-page__map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  @media (max-width: 768px) {
+    .contact-page__map { height: 280px; }
+  }
+  @media (max-width: 480px) {
+    .contact-page__map { height: 220px; }
   }
 `;
 
@@ -36,10 +49,7 @@ export default function ContactUs() {
         <div className="contact-page__map">
           <iframe 
             src="https://maps.google.com/maps?q=Najibabad,%20Bijnor&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen="" 
+            allowFullScreen=""
             loading="lazy"
             title="Najibabad, Bijnor Map"
           ></iframe>

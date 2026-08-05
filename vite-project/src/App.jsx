@@ -14,6 +14,8 @@ import GalleryPage from './pages/Gallery';
 // Phase 4 Pages
 import Certifications from './pages/Certifications';
 import VendorPartnership from './pages/VendorPartnership';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
 import FloatingWidgets from './components/common/FloatingWidgets';
 
 function ScrollToTop() {
@@ -42,6 +44,8 @@ function App() {
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/certifications" element={<Certifications />} />
           <Route path="/vendor-partnership" element={<VendorPartnership />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
         </Routes>
       </main>
     </>

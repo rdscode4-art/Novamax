@@ -3,7 +3,7 @@ import React from 'react';
 const css = `
   .dl-app {
     padding: 120px 24px;
-    background: #0A2E73;
+    background: #1a3a6b;
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
@@ -201,14 +201,14 @@ export default function DownloadApp() {
             </p>
             
             <div className="dl-app__buttons">
-              <a href="#" className="dl-app__btn">
+              <a href="/contact" className="dl-app__btn">
                 <span className="dl-app__btn-icon">🍏</span>
                 <span className="dl-app__btn-text">
                   <small>Download on the</small>
                   <strong>App Store</strong>
                 </span>
               </a>
-              <a href="#" className="dl-app__btn">
+              <a href="/contact" className="dl-app__btn">
                 <span className="dl-app__btn-icon">▶️</span>
                 <span className="dl-app__btn-text">
                   <small>GET IT ON</small>

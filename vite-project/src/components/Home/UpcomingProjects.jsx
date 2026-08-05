@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import api from '../../services/api';
 
 const css = `
   .upcoming-section {
@@ -21,7 +23,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 800;
-    color: #1a3b70;
+    color: #1a3a6b;
     margin: 0;
     line-height: 1.2;
     text-transform: uppercase;
@@ -81,13 +83,27 @@ const css = `
     display: flex;
     flex-direction: column;
     position: relative;
-    border: 1px solid #f0f0f0;
+    border: 2px solid transparent;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    cursor: pointer;
   }
   .uc-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    transform: translateY(-6px);
+    border-color: var(--card-color, #ccc);
+    background: linear-gradient(160deg, #fff 60%, color-mix(in srgb, var(--card-color, #ccc) 8%, white));
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--card-color, #ccc) 35%, transparent);
+  }
+  .uc-card:hover .uc-card-icon-area {
+    background: color-mix(in srgb, var(--card-color, #ccc) 15%, white);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--card-color, #ccc) 20%, transparent);
+    transform: scale(1.08);
+  }
+  .uc-card:hover .uc-card-desc {
+    color: #333;
+  }
+  .uc-card-icon-area {
+    transition: background 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
   }
 
   .uc-card-badge {
@@ -189,105 +205,78 @@ const css = `
   }
 `;
 
-const projects = [
-  {
-    id: '01',
-    title: '10/- RUPEES MEDICINE CENTRE',
-    desc: 'Quality medicines available at just ₹10 to make healthcare affordable for all.',
-    icon: '💊',
-    footerText: 'Affordable Medicines • Better Health',
-    color: '#1a56db', 
-  },
-  {
-    id: '02',
-    title: 'HEALTH AND WELLNESS PROGRAM',
-    desc: 'Promoting a healthier lifestyle through awareness, fitness, nutrition and regular checkups.',
-    icon: '🧘‍♀️',
-    footerText: 'Healthy Living • Happy Life',
-    color: '#057a55',
-  },
-  {
-    id: '03',
-    title: 'AI HEALTH CARD',
-    desc: 'Smart digital health cards powered by AI for instant access to your medical history.',
-    icon: '🤖',
-    footerText: 'Smart Healthcare • Instant Access',
-    color: '#ea580c', 
-  },
-  {
-    id: '04',
-    title: '24x7 TELEMEDICINE',
-    desc: 'Get online consultations from top doctors anytime, anywhere for immediate care.',
-    icon: '🩺',
-    footerText: 'Expert Doctors • 24/7 Availability',
-    color: '#7c3aed', 
-  },
-  {
-    id: '05',
-    title: 'MOBILE MEDICAL VAN',
-    desc: 'Bringing healthcare to your doorstep with fully equipped mobile medical clinics.',
-    icon: '🚐',
-    footerText: 'Healthcare at Doorstep • Fast Response',
-    color: '#0891b2',
-  },
-  {
-    id: '06',
-    title: 'DIGITAL MEDICAL RECORDS',
-    desc: 'Securely store and manage all your medical records digitally for easy sharing.',
-    icon: '📋',
-    footerText: 'Secure Storage • Easy Management',
-    color: '#d97706',
-  },
-  {
-    id: '07',
-    title: 'NOVAMAX DIGITAL CLINIC',
-    desc: 'State-of-the-art digital clinics equipped with modern diagnostic technologies.',
-    icon: '🏥',
-    footerText: 'Modern Diagnostics • Quality Care',
-    color: '#e11d48',
-  },
-  {
-    id: '08',
-    title: 'FREE HEALTH CAMPS',
-    desc: 'Organizing regular health checkup camps in rural areas to provide free medical advice.',
-    icon: '🩺',
-    footerText: 'Next Initiative • Coming Soon',
-    color: '#2f7a35',
-  },
-  {
-    id: '09',
-    title: 'MATERNITY SUPPORT',
-    desc: 'Ensuring safe motherhood by providing essential medical care and nutritional support.',
-    icon: '🤱',
-    footerText: 'Mother & Child Care • Better Future',
-    color: '#0ea5e9',
-  }
+// Fallback data in case API is unavailable
+const fallbackProjects = [
+  { id: '01', title: '₹10/- MEDICINE CENTRE', desc: 'Quality medicines available at just ₹10 to make healthcare affordable for all.', icon: '💊', footerText: 'Affordable Medicines • Better Health', color: '#1a3a6b' },
+  { id: '02', title: 'HEALTH & WELLNESS PROGRAM', desc: 'Promoting a healthier lifestyle through awareness, fitness, nutrition and regular checkups.', icon: '🧘‍♀️', footerText: 'Healthy Living • Happy Life', color: '#057a55' },
+  { id: '03', title: 'AI X-RAY CHECKUP MACHINE', desc: 'Advanced AI-powered X-Ray technology for accurate and instant medical diagnostics.', icon: '🩺', footerText: 'Smart Diagnostics • Instant Results', color: '#ea580c' },
+  { id: '04', title: 'NOVAMAX DISCOUNT MEDICAL STORE', desc: 'Providing essential healthcare products and medical supplies at heavily discounted rates.', icon: '🏪', footerText: 'Discounted Prices • Quality Care', color: '#7c3aed' },
+  { id: '05', title: 'ALCOHOL-FREE LIFE PROGRAM', desc: 'Comprehensive rehabilitation and awareness program to help individuals overcome addiction.', icon: '🚫', footerText: 'Addiction Free • Better Future', color: '#0891b2' },
+  { id: '06', title: 'CONTROL RATE GROCERY STORE', desc: 'Ensuring food security by providing daily essential groceries at controlled and affordable rates.', icon: '🛒', footerText: 'Affordable Groceries • Food Security', color: '#d97706' },
+  { id: '07', title: 'FREE HOME TUITION CENTRE', desc: 'Quality education and free tutoring services brought directly to students at their homes.', icon: '📚', footerText: 'Free Education • Bright Future', color: '#e11d48' },
+  { id: '08', title: 'ZERO INTEREST LOAN FACILITIES', desc: 'Empowering small businesses and individuals with interest-free financial support.', icon: '💰', footerText: 'Financial Support • Zero Interest', color: '#2f7a35' },
+  { id: '09', title: 'FREE JAN SEVA KENDRA', desc: 'A dedicated center providing free access to essential government and digital services.', icon: '🏛️', footerText: 'Digital Services • Public Welfare', color: '#0ea5e9' },
+  { id: '10', title: 'WOMEN INCOME SOURCE PROGRAM', desc: 'Empowering women with skill development and sustainable income generation opportunities.', icon: '👩‍💼', footerText: 'Women Empowerment • Independence', color: '#db2777' }
 ];
 
 export default function UpcomingProjects() {
+  const [projects, setProjects] = useState(fallbackProjects);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await api.get('/projects');
+        if (res.data?.success && res.data.data?.length > 0) {
+          // Map backend fields to component fields
+          const mapped = res.data.data.map(p => ({
+            id: p.serialNumber,
+            title: p.title,
+            desc: p.description,
+            icon: p.icon,
+            footerText: p.footerText,
+            color: p.color,
+          }));
+          setProjects(mapped);
+        }
+      } catch (err) {
+        // Silently fall back to static data
+        console.warn('Failed to fetch projects, using fallback data');
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <section className="upcoming-section">
       <style>{css}</style>
       <div className="upcoming-container">
         
         {/* Header */}
-        <div className="upcoming-header">
-          <h3 className="upcoming-pre-title">OUR</h3>
-          <h2 className="upcoming-title">UPCOMING PROJECTS</h2>
-          <div className="upcoming-divider">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </div>
-          <p className="upcoming-subtitle">
-            Innovative Initiatives for a <strong>Better, Healthier & Empowered</strong> Society
-          </p>
-        </div>
+        <motion.div
+          className="section-heading"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          viewport={{ once: true }}
+        >
+          <div className="section-heading__label">Our Initiatives</div>
+          <h2 className="section-heading__title">Upcoming Projects</h2>
+          <div className="section-heading__underline"></div>
+          <p className="section-heading__subtitle">Innovative initiatives for a <strong>Better, Healthier &amp; Empowered</strong> Society.</p>
+        </motion.div>
 
         {/* Grid Layout */}
         <div className="upcoming-grid">
-          {projects.map((item) => (
-            <div className="uc-card" key={item.id}>
+          {projects.map((item, index) => (
+            <motion.div
+              className="uc-card"
+              key={item.id}
+              style={{ '--card-color': item.color }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -80 : 80 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.55, delay: (index % 3) * 0.1, ease: 'easeOut' }}
+              viewport={{ once: true, margin: '-50px' }}
+            >
               
               <div className="uc-card-badge" style={{ background: item.color }}>
                 {item.id}
@@ -311,7 +300,7 @@ export default function UpcomingProjects() {
                 {item.footerText}
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -319,3 +308,4 @@ export default function UpcomingProjects() {
     </section>
   );
 }
+

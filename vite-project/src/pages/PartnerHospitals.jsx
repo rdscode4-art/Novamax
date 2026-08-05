@@ -12,7 +12,7 @@ export default function PartnerHospitalsPage() {
           title="Our Hospital Network" 
           subtitle="We have partnered with top-tier NABH accredited hospitals to bring you the best medical care at affordable prices." 
           icon="🏥" 
-          bgGradient="linear-gradient(135deg, #1A2980 0%, #26D0CE 100%)" 
+          bgGradient="linear-gradient(135deg, #1a3a6b 0%, #26D0CE 100%)" 
         />
         
         <OurPartnersSection />

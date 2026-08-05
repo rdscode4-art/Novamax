@@ -189,11 +189,11 @@ export default function PartnerHospitals() {
       <section className="partners">
         <div className="partners__container">
           
-          <div className="partners__header-wrapper">
-            <div className="partners__header">
-              <h2 className="partners__title">Our Partner Hospitals</h2>
-            </div>
-            <button className="partners__view-all">View All</button>
+          <div className="section-heading">
+            <div className="section-heading__label">Trusted Network</div>
+            <h2 className="section-heading__title">Our Partner Hospitals</h2>
+            <div className="section-heading__underline"></div>
+            <p className="section-heading__subtitle">Discover our wide network of trusted hospitals and clinics offering exclusive discounts.</p>
           </div>
 
           <div className="partners__slider">

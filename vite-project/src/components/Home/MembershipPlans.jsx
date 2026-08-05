@@ -210,7 +210,7 @@ export default function MembershipPlans() {
                   IPD/Surgery Discounts
                 </li>
               </ul>
-              <a href="#" className="premium-btn" style={{ width: '100%', border: '2px solid var(--border)', color: 'var(--text-h)' }}>Get Silver</a>
+              <a href="/contact" className="premium-btn" style={{ width: '100%', border: '2px solid var(--border)', color: 'var(--text-h)' }}>Get Silver</a>
             </motion.div>
 
             {/* Gold Plan */}
@@ -248,7 +248,7 @@ export default function MembershipPlans() {
                   24/7 Priority Support
                 </li>
               </ul>
-              <a href="#" className="premium-btn premium-btn-primary" style={{ width: '100%' }}>Get Gold</a>
+              <a href="/contact" className="premium-btn premium-btn-primary" style={{ width: '100%' }}>Get Gold</a>
             </motion.div>
 
             {/* Premium Plan */}
@@ -285,7 +285,7 @@ export default function MembershipPlans() {
                   Free Annual Health Checkup
                 </li>
               </ul>
-              <a href="#" className="premium-btn" style={{ width: '100%', border: '2px solid var(--border)', color: 'var(--text-h)' }}>Get Premium</a>
+              <a href="/contact" className="premium-btn" style={{ width: '100%', border: '2px solid var(--border)', color: 'var(--text-h)' }}>Get Premium</a>
             </motion.div>
 
           </motion.div>

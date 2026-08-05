@@ -1,8 +1,86 @@
 import React, { useState } from 'react';
 import './JoinUsForms.css';
+import { joinService } from '../../services/joinService';
+
+const designationOptions = {
+  state: ['State President', 'State Vice President', 'State General Secretary'],
+  district: ['District President', 'District Vice President', 'District General Secretary', 'District Project Manager'],
+  block: ['Block President', 'Block Vice President', 'Block General Secretary', 'Volunteer'],
+  city: ['City President', 'City Vice President', 'City General Secretary', 'Volunteer'],
+  village: ['Village President', 'Village Vice President', 'Village General Secretary', 'Volunteer'],
+  national: ['National President', 'National Vice President', 'National General Secretary']
+};
 
 export default function JoinUsForms() {
-  const [formType, setFormType] = useState('post'); // 'post' | 'subadmin'
+  const [formType, setFormType] = useState('post');
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  // Volunteer form state
+  const [volunteerForm, setVolunteerForm] = useState({
+    fullName: '', fatherName: '', phone: '', whatsapp: '', email: '', panCard: '', postLevel: '', address: '', photo: null,
+  });
+
+  // Subadmin form state
+  const [subadminForm, setSubadminForm] = useState({
+    fullName: '', fatherName: '', phone: '', email: '', panCard: '', postLevel: '', designation: '',
+    aadhaar: '', state: '', pinCode: '', address: '', photo: null,
+  });
+
+  const handleVolChange = (e) => {
+    if (e.target.type === 'file') {
+      setVolunteerForm(p => ({ ...p, photo: e.target.files[0] }));
+    } else {
+      setVolunteerForm(p => ({ ...p, [e.target.name]: e.target.value }));
+    }
+  };
+
+  const handleSubChange = (e) => {
+    if (e.target.type === 'file') {
+      setSubadminForm(p => ({ ...p, photo: e.target.files[0] }));
+    } else if (e.target.name === 'postLevel') {
+      // Reset designation when postLevel changes
+      setSubadminForm(p => ({ ...p, postLevel: e.target.value, designation: '' }));
+    } else {
+      setSubadminForm(p => ({ ...p, [e.target.name]: e.target.value }));
+    }
+  };
+
+  const handleSubmit = async (e, type) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const fd = new FormData();
+      fd.append('formType', type === 'post' ? 'volunteer' : 'subadmin');
+      const data = type === 'post' ? volunteerForm : subadminForm;
+      Object.entries(data).forEach(([k, v]) => {
+        if (k === 'photo' && v) fd.append('photo', v);
+        else if (v) fd.append(k, v);
+      });
+      await joinService.submit(fd);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Submission failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="join-us-container op__fade-in" style={{ textAlign: 'center', padding: '60px 20px' }}>
+        <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
+        <h2 style={{ color: '#1a3a6b' }}>Application Submitted!</h2>
+        <p style={{ color: '#555', fontSize: 15 }}>Thank you for joining our mission! We will review and get back to you.</p>
+        <button onClick={() => { setSubmitted(false); setError(''); }}
+          style={{ marginTop: 24, padding: '12px 28px', background: '#2e7d32', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
+          Submit Another Application
+        </button>
+      </div>
+    );
+  }
 
   const PhotoUpload = ({ label }) => {
     const [preview, setPreview] = useState(null);
@@ -24,8 +102,8 @@ export default function JoinUsForms() {
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                 width: '100%', borderRadius: '12px', 
-                border: '1.5px dashed #2563eb', background: '#eff6ff',
-                color: '#2563eb', fontSize: '14px', fontWeight: '600', cursor: 'pointer',
+                border: '1.5px dashed #2563a8', background: '#eff6ff',
+                color: '#2563a8', fontSize: '14px', fontWeight: '600', cursor: 'pointer',
                 height: '52px', transition: 'all 0.2s'
               }}
             >
@@ -89,33 +167,44 @@ export default function JoinUsForms() {
       </div>
 
       <div className="join-us-form-wrapper">
+        {error && (
+          <div style={{ background: '#fee2e2', color: '#dc2626', padding: '10px 16px', borderRadius: 8, marginBottom: 16, fontSize: 14, maxWidth: 600, margin: '0 auto 16px' }}>
+            {error}
+          </div>
+        )}
+
         {formType === 'post' && (
-          <form className="ju-form op__fade-in" onSubmit={(e) => e.preventDefault()}>
+          <form className="ju-form op__fade-in" onSubmit={(e) => handleSubmit(e, 'post')}>
             <h3 className="ju-form-title">Volunteer Post Application</h3>
-            
             <div className="ju-form-grid">
               <div className="ju-input-group">
                 <label>Full Name</label>
-                <input type="text" placeholder="Enter your full name" required />
+                <input type="text" name="fullName" value={volunteerForm.fullName} onChange={handleVolChange} placeholder="Enter your full name" required />
+              </div>
+              <div className="ju-input-group">
+                <label>Father's Name</label>
+                <input type="text" name="fatherName" value={volunteerForm.fatherName} onChange={handleVolChange} placeholder="Enter father's name" required />
               </div>
               <div className="ju-input-group">
                 <label>Phone Number</label>
-                <input type="tel" placeholder="10-digit mobile number" required />
+                <input type="tel" name="phone" value={volunteerForm.phone} onChange={handleVolChange} placeholder="10-digit mobile number" required />
               </div>
               <div className="ju-input-group">
                 <label>WhatsApp Number</label>
-                <input type="tel" placeholder="WhatsApp number" required />
+                <input type="tel" name="whatsapp" value={volunteerForm.whatsapp} onChange={handleVolChange} placeholder="WhatsApp number" />
               </div>
               <div className="ju-input-group">
-                <label>Email Address</label>
-                <input type="email" placeholder="Email address" required />
+                <label>Email Address (Optional)</label>
+                <input type="email" name="email" value={volunteerForm.email} onChange={handleVolChange} placeholder="Email address" />
               </div>
-              
-              <PhotoUpload label="Applicant Photo (Clear Front Face)" />
-              
+              <div className="ju-input-group">
+                <label>PAN Card (Optional)</label>
+                <input type="text" name="panCard" value={volunteerForm.panCard} onChange={handleVolChange} placeholder="Enter PAN number" />
+              </div>
+              <PhotoUpload label="Applicant Photo (Clear Front Face)" onChange={handleVolChange} />
               <div className="ju-input-group">
                 <label>Post Applying For</label>
-                <select required>
+                <select name="postLevel" value={volunteerForm.postLevel} onChange={handleVolChange} required>
                   <option value="">Select a level</option>
                   <option value="national">National Level Volunteer</option>
                   <option value="state">State Level Volunteer</option>
@@ -125,44 +214,45 @@ export default function JoinUsForms() {
                   <option value="village">Village Level Volunteer</option>
                 </select>
               </div>
-
               <div className="ju-input-group ju-full-width">
                 <label>Full Address</label>
-                <textarea rows="3" placeholder="Enter your complete address" required></textarea>
+                <textarea name="address" value={volunteerForm.address} onChange={handleVolChange} rows="3" placeholder="Enter your complete address" required />
               </div>
             </div>
-            
-            <button type="submit" className="ju-submit-btn">Submit Application</button>
+            <button type="submit" className="ju-submit-btn" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit Application'}
+            </button>
           </form>
         )}
 
         {formType === 'subadmin' && (
-          <form className="ju-form op__fade-in" onSubmit={(e) => e.preventDefault()}>
+          <form className="ju-form op__fade-in" onSubmit={(e) => handleSubmit(e, 'subadmin')}>
             <h3 className="ju-form-title">Sub-Admin Application</h3>
-            
             <div className="ju-form-grid">
               <div className="ju-input-group">
                 <label>Full Name</label>
-                <input type="text" placeholder="Enter your full name" required />
+                <input type="text" name="fullName" value={subadminForm.fullName} onChange={handleSubChange} placeholder="Enter your full name" required />
               </div>
               <div className="ju-input-group">
                 <label>Father's Name</label>
-                <input type="text" placeholder="Enter father's name" required />
+                <input type="text" name="fatherName" value={subadminForm.fatherName} onChange={handleSubChange} placeholder="Enter father's name" required />
               </div>
               <div className="ju-input-group">
                 <label>Phone Number</label>
-                <input type="tel" placeholder="10-digit mobile number" required />
+                <input type="tel" name="phone" value={subadminForm.phone} onChange={handleSubChange} placeholder="10-digit mobile number" required />
               </div>
               <div className="ju-input-group">
-                <label>Email Address</label>
-                <input type="email" placeholder="Email address" required />
+                <label>Email Address (Optional)</label>
+                <input type="email" name="email" value={subadminForm.email} onChange={handleSubChange} placeholder="Email address" />
               </div>
-              
-              <PhotoUpload label="Applicant Photo (Clear Front Face)" />
-              
+              <div className="ju-input-group">
+                <label>PAN Card (Optional)</label>
+                <input type="text" name="panCard" value={subadminForm.panCard} onChange={handleSubChange} placeholder="Enter PAN number" />
+              </div>
+              <PhotoUpload label="Applicant Photo (Clear Front Face)" onChange={handleSubChange} />
               <div className="ju-input-group">
                 <label>Post Level</label>
-                <select required>
+                <select name="postLevel" value={subadminForm.postLevel} onChange={handleSubChange} required>
                   <option value="">Select Level</option>
                   <option value="national">National Level</option>
                   <option value="state">State Level</option>
@@ -172,37 +262,35 @@ export default function JoinUsForms() {
                   <option value="village">Village Level</option>
                 </select>
               </div>
-
               <div className="ju-input-group">
                 <label>Aadhaar Number</label>
-                <input type="text" placeholder="12-digit Aadhaar number" required />
+                <input type="text" name="aadhaar" value={subadminForm.aadhaar} onChange={handleSubChange} placeholder="12-digit Aadhaar number" />
               </div>
               <div className="ju-input-group">
                 <label>Designation</label>
-                <select required>
+                <select name="designation" value={subadminForm.designation} onChange={handleSubChange} required disabled={!subadminForm.postLevel}>
                   <option value="">Select Designation</option>
-                  <option value="president">President</option>
-                  <option value="secretary">Secretary</option>
-                  <option value="coordinator">Coordinator</option>
-                  <option value="executive">Executive Member</option>
+                  {subadminForm.postLevel && designationOptions[subadminForm.postLevel]?.map(desig => (
+                    <option key={desig} value={desig}>{desig}</option>
+                  ))}
                 </select>
               </div>
               <div className="ju-input-group">
                 <label>State</label>
-                <input type="text" placeholder="Enter State" required />
+                <input type="text" name="state" value={subadminForm.state} onChange={handleSubChange} placeholder="Enter State" required />
               </div>
               <div className="ju-input-group">
                 <label>Pin Code</label>
-                <input type="text" placeholder="Enter PIN code" required />
+                <input type="text" name="pinCode" value={subadminForm.pinCode} onChange={handleSubChange} placeholder="Enter PIN code" />
               </div>
-              
               <div className="ju-input-group ju-full-width">
                 <label>Detailed Address</label>
-                <textarea rows="3" placeholder="House no, Street, City/Village" required></textarea>
+                <textarea name="address" value={subadminForm.address} onChange={handleSubChange} rows="3" placeholder="House no, Street, City/Village" required />
               </div>
             </div>
-            
-            <button type="submit" className="ju-submit-btn">Submit Sub-Admin Application</button>
+            <button type="submit" className="ju-submit-btn" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit Sub-Admin Application'}
+            </button>
           </form>
         )}
       </div>

@@ -22,7 +22,7 @@ const css = `
     font-family: 'Poppins', sans-serif;
     font-size: 40px;
     font-weight: 700;
-    color: #0A2E73;
+    color: #1a3a6b;
     margin-bottom: 16px;
   }
   .hiw__subtitle {
@@ -149,7 +149,7 @@ export default function HowItWorks() {
             viewport={{ once: true, margin: "-100px" }}
           >
             <motion.div className="hiw__step" variants={itemVariants}>
-              <div className="hiw__icon-wrapper" style={{ color: '#0A2E73' }}>
+              <div className="hiw__icon-wrapper" style={{ color: '#1a3a6b' }}>
                 <Smartphone size={48} />
                 <span className="hiw__step-num">1</span>
               </div>
@@ -160,7 +160,7 @@ export default function HowItWorks() {
             </motion.div>
             
             <motion.div className="hiw__step" variants={itemVariants}>
-              <div className="hiw__icon-wrapper" style={{ color: '#0A2E73' }}>
+              <div className="hiw__icon-wrapper" style={{ color: '#1a3a6b' }}>
                 <CreditCard size={48} />
                 <span className="hiw__step-num">2</span>
               </div>
@@ -171,7 +171,7 @@ export default function HowItWorks() {
             </motion.div>
 
             <motion.div className="hiw__step" variants={itemVariants}>
-              <div className="hiw__icon-wrapper" style={{ color: '#0A2E73' }}>
+              <div className="hiw__icon-wrapper" style={{ color: '#1a3a6b' }}>
                 <Hospital size={48} />
                 <span className="hiw__step-num">3</span>
               </div>
