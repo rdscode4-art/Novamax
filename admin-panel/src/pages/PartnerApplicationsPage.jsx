@@ -119,7 +119,7 @@ export default function PartnerApplicationsPage() {
               <InfoRow label="Name / Establishment" value={viewItem.name} />
               <InfoRow label="Phone" value={viewItem.phone} />
               <InfoRow label="Email" value={viewItem.email} />
-              <InfoRow label="Registration Number" value={viewItem.registrationNumber} />
+              <InfoRow label="Registration Number (Doctor/Hospital)" value={viewItem.registrationNumber} />
               <InfoRow label="Experience / Est. Year" value={viewItem.experience} />
               <InfoRow label="Status"><StatusBadge status={viewItem.status} /></InfoRow>
               <InfoRow label="Complete Address" value={viewItem.address} col="1 / -1" />

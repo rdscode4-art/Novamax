@@ -253,7 +253,7 @@ const css = `
   }
 `;
 
-export default function HospitalDirectory() {
+export default function HospitalDirectory({ activeCategory }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -275,6 +275,7 @@ export default function HospitalDirectory() {
         page,
         limit: 12,
         search: debouncedSearch || undefined,
+        category: (activeCategory && activeCategory !== 'All') ? activeCategory : undefined
       });
       setHospitals(res.data.data || []);
       setPagination(res.data.pagination || { page: 1, pages: 1, total: 0 });
@@ -284,7 +285,7 @@ export default function HospitalDirectory() {
     } finally {
       setLoading(false);
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch, activeCategory]);
 
   useEffect(() => {
     fetchHospitals(1);

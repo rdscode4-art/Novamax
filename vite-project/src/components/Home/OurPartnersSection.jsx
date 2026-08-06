@@ -29,28 +29,7 @@ export default function OurPartnersSection() {
   const [activeSubTab, setActiveSubTab] = useState('All');
   const [activeNgoTab, setActiveNgoTab] = useState('All');
   
-  // Hospital State
-  const [hospitalsData, setHospitalsData] = useState([]);
-
   // NGO Volunteers State
-  const [volunteers, setVolunteers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Fetch Hospitals
-  useEffect(() => {
-    const fetchHospitals = async () => {
-      try {
-        const res = await api.get('/hospitals');
-        if (res.data?.success) {
-          setHospitalsData(res.data.data || []);
-        }
-      } catch (err) {
-        console.error('Error fetching hospitals:', err);
-      }
-    };
-    fetchHospitals();
-  }, []);
 
   // Fetch volunteers when NGO tab is active
   useEffect(() => {
@@ -75,11 +54,6 @@ export default function OurPartnersSection() {
       setLoading(false);
     }
   };
-
-  const filteredHospitals = hospitalsData.filter(partner => {
-    if (activeSubTab === 'All') return true;
-    return partner.category === activeSubTab;
-  });
 
   const getImageUrl = (img) => {
     if (!img) return 'https://via.placeholder.com/600x400?text=Hospital';
@@ -129,42 +103,8 @@ export default function OurPartnersSection() {
               ))}
             </div>
 
-            {/* Grid for Hospital */}
-            {activeSubTab === 'Hospital' ? (
-              <HospitalDirectory />
-            ) : (
-              <div className="op__grid">
-                {filteredHospitals.map(partner => (
-                  <div key={partner._id || partner.id} className="op__card">
-                    <div className="op__card-image-wrapper">
-                      <img src={getImageUrl(partner.image)} alt={partner.name} className="op__card-img" />
-                      <div className="op__card-discount">{partner.discount}</div>
-                    </div>
-                    <div className="op__card-content">
-                      <span className="op__card-category">{partner.category}</span>
-                      <h3 className="op__card-title">{partner.name}</h3>
-                      
-                      <div className="op__card-info">
-                        <span className="op__icon">📍</span>
-                        <span><strong>{partner.location}</strong> - {partner.address}</span>
-                      </div>
-
-                      <div className="op__facilities">
-                        {partner.facilities?.map((fac, idx) => (
-                          <span key={idx} className="op__facility-tag">{fac}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                
-                {filteredHospitals.length === 0 && (
-                  <div style={{ textAlign: 'center', width: '100%', gridColumn: '1 / -1', padding: '40px', color: '#666' }}>
-                    No partners found in this category yet.
-                  </div>
-                )}
-              </div>
-            )}
+            {/* Grid for all Medical Partners */}
+            <HospitalDirectory activeCategory={activeSubTab} />
           </div>
         )}
 
