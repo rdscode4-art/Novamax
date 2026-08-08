@@ -83,3 +83,27 @@ exports.changePassword = async (req, res, next) => {
     next(err);
   }
 };
+
+// @POST /api/admin/verify-superadmin
+exports.verifySuperAdmin = async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    
+    // Check if the current user is a superadmin
+    if (req.admin.role !== 'superadmin') {
+      return res.status(403).json({ success: false, message: 'Only Super Admins can unlock this mode' });
+    }
+
+    // The Master Super Admin Password is set to RDS@123
+    const SUPER_ADMIN_PASS = process.env.SUPER_ADMIN_PASSWORD || 'RDS@123';
+    
+    if (password !== SUPER_ADMIN_PASS) {
+      return res.status(401).json({ success: false, message: 'Incorrect Master Password' });
+    }
+
+    return successResponse(res, null, 'Super Admin Mode Unlocked');
+  } catch (err) {
+    next(err);
+  }
+};
+

@@ -20,6 +20,7 @@ const volunteerRoutes = require('./routes/volunteerRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const certificateRoutes = require('./routes/certificateRoutes');
+const portalAuthRoutes = require('./routes/portalAuthRoutes');
 
 const app = express();
 
@@ -86,6 +87,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/admin/projects', projectRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/admin/certificates', certificateRoutes);
+app.use('/api/portal', portalAuthRoutes);
 
 // 404
 app.use((req, res) => {

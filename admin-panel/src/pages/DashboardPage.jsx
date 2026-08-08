@@ -5,6 +5,7 @@ import StatCard from '../components/StatCard';
 import PageHeader from '../components/PageHeader';
 import StatusBadge from '../components/StatusBadge';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 // Sample data for charts to make it look attractive
 const growthData = [
@@ -27,6 +28,7 @@ const categoryData = [
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { isSuperAdminMode } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,16 +40,22 @@ export default function DashboardPage() {
 
   const s = stats?.stats || {};
 
-  const cards = [
+  const adminCards = [
     { icon: '🏥', label: 'Total Hospitals',       value: s.totalHospitals ?? 0,     color: '#1a3a6b', bg: '#eff6ff', link: '/hospitals' },
     { icon: '🚀', label: 'Upcoming Projects',     value: s.totalProjects ?? 0,      color: '#ea580c', bg: '#fff7ed', link: '/projects' },
     { icon: '📜', label: 'Certificates',          value: s.totalCertificates ?? 0,  color: '#d97706', bg: '#fef3c7', link: '/certificates' },
+    { icon: '🖼️', label: 'Gallery Items',         value: s.totalGallery ?? 0,       color: '#2563eb', bg: '#eff6ff', link: '/gallery' },
+    { icon: '📬', label: 'Contact Messages',      value: s.totalContacts ?? 0,      color: '#7c3aed', bg: '#f5f3ff', link: '/contacts' },
+  ];
+
+  const superAdminCards = [
     { icon: '🤝', label: 'Partner Applications',  value: s.totalPartnerApps ?? 0,   color: '#0891b2', bg: '#ecfeff', link: '/partner-applications' },
     { icon: '📋', label: 'Join Applications',     value: s.totalJoinApps ?? 0,      color: '#059669', bg: '#ecfdf5', link: '/join-applications' },
-    { icon: '🖼️', label: 'Gallery Items',         value: s.totalGallery ?? 0,       color: '#2563eb', bg: '#eff6ff', link: '/gallery' },
     { icon: '📬', label: 'Contact Messages',      value: s.totalContacts ?? 0,      color: '#7c3aed', bg: '#f5f3ff', link: '/contacts' },
     { icon: '⏳', label: 'Pending Partners',      value: s.pendingPartnerApps ?? 0, color: '#dc2626', bg: '#fef2f2', link: '/partner-applications' },
   ];
+
+  const cards = isSuperAdminMode ? superAdminCards : adminCards;
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
@@ -61,10 +69,21 @@ export default function DashboardPage() {
 
   return (
     <div style={{ paddingBottom: 40 }}>
-      <PageHeader
-        title="Dashboard Overview"
-        subtitle="Track your foundation's growth, activities, and recent applications."
-      />
+      <div style={{ marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <h1 className={isSuperAdminMode ? 'animated-gradient-text' : ''} style={{ fontSize: 28, fontWeight: 800, color: isSuperAdminMode ? 'transparent' : '#0f172a', margin: 0 }}>
+              {isSuperAdminMode ? 'Super Admin Dashboard' : 'Dashboard Overview'}
+            </h1>
+            {isSuperAdminMode && (
+              <span style={{ background: 'linear-gradient(135deg, #fbbf24, #d97706)', color: '#fff', padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: '0.5px' }}>PREMIUM</span>
+            )}
+          </div>
+          <p style={{ fontSize: 14, color: isSuperAdminMode ? '#9ca3af' : '#64748b', margin: 0 }}>
+            {isSuperAdminMode ? "Manage all foundation applications and approve users." : "Track your foundation's growth and activities."}
+          </p>
+        </div>
+      </div>
 
       {/* Top Stats Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20, marginBottom: 32 }}>
@@ -139,7 +158,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Activity Lists */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }} className="dash-lists-grid">
+      <div style={{ display: 'grid', gridTemplateColumns: isSuperAdminMode ? '1fr 1fr' : '1fr', gap: 24 }} className="dash-lists-grid">
         
         {/* Recent Contacts */}
         <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #f1f5f9', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
@@ -165,34 +184,49 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Recent Join Applications */}
-        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #f1f5f9', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
-          <div style={{ padding: '24px 28px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafbfc' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 800, color: '#1e293b', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ background: '#dcfce7', width: 36, height: 36, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>📋</span>
-              Recent Join Apps
-            </h3>
-            <button onClick={() => navigate('/join-applications')} style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', borderRadius: 8, transition: 'all 0.2s' }} onMouseOver={e => {e.target.style.background = '#dcfce7'; e.target.style.transform = 'translateX(2px)'}} onMouseOut={e => {e.target.style.background = 'none'; e.target.style.transform = 'none'}}>View All &rarr;</button>
-          </div>
-          {(stats?.recentApplications || []).length === 0 ? (
-            <div style={{ padding: '60px 40px', textAlign: 'center', color: '#94a3b8', fontSize: 15, fontWeight: 500 }}>No applications yet</div>
-          ) : (
-            (stats?.recentApplications || []).map((a, i) => (
-              <div key={a._id} style={{ padding: '20px 28px', borderBottom: i === (stats.recentApplications.length - 1) ? 'none' : '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, transition: 'background 0.25s', cursor: 'pointer' }} onMouseOver={e => e.currentTarget.style.background = '#f8fafc'} onMouseOut={e => e.currentTarget.style.background = '#fff'}>
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#334155', marginBottom: 6 }}>{a.name}</div>
-                  <div style={{ fontSize: 13, color: '#475569', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', background: '#f1f5f9', borderRadius: 14, fontWeight: 600 }}>
-                    <span style={{ fontSize: 12 }}>📞</span> {a.phone}
+        {/* Recent Join Applications - Only in Super Admin Mode */}
+        {isSuperAdminMode && (
+          <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #f1f5f9', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
+            <div style={{ padding: '24px 28px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafbfc' }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800, color: '#1e293b', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ background: '#dcfce7', width: 36, height: 36, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>📋</span>
+                Recent Join Apps
+              </h3>
+              <button onClick={() => navigate('/join-applications')} style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', borderRadius: 8, transition: 'all 0.2s' }} onMouseOver={e => {e.target.style.background = '#dcfce7'; e.target.style.transform = 'translateX(2px)'}} onMouseOut={e => {e.target.style.background = 'none'; e.target.style.transform = 'none'}}>View All &rarr;</button>
+            </div>
+            {(stats?.recentApplications || []).length === 0 ? (
+              <div style={{ padding: '60px 40px', textAlign: 'center', color: '#94a3b8', fontSize: 15, fontWeight: 500 }}>No applications yet</div>
+            ) : (
+              (stats?.recentApplications || []).map((a, i) => (
+                <div key={a._id} style={{ padding: '20px 28px', borderBottom: i === (stats.recentApplications.length - 1) ? 'none' : '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, transition: 'background 0.25s', cursor: 'pointer' }} onMouseOver={e => e.currentTarget.style.background = '#f8fafc'} onMouseOut={e => e.currentTarget.style.background = '#fff'}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#334155', marginBottom: 6 }}>{a.name}</div>
+                    <div style={{ fontSize: 13, color: '#475569', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', background: '#f1f5f9', borderRadius: 14, fontWeight: 600 }}>
+                      <span style={{ fontSize: 12 }}>📞</span> {a.phone}
+                    </div>
                   </div>
+                  <StatusBadge status={a.status} />
                 </div>
-                <StatusBadge status={a.status} />
-              </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       <style>{`
+        .animated-gradient-text {
+          background: linear-gradient(to right, #fde68a, #f59e0b, #d97706, #fde68a);
+          background-size: 200% auto;
+          color: transparent;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
         @media(max-width: 1024px) {
           .dash-charts-grid { grid-template-columns: 1fr !important; }
         }

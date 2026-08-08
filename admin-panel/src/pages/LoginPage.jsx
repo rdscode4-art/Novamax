@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(form.email, form.password);
-      toast.success('Welcome back!');
+      toast.success('Welcome back, Admin!');
       navigate('/');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed. Check credentials.');
@@ -46,7 +46,8 @@ export default function LoginPage() {
           box-shadow: 0 8px 20px rgba(26,58,107,0.3);
         }
         .login-title { font-size: 22px; font-weight: 800; color: #1a3a6b; }
-        .login-sub { font-size: 13px; color: #64748b; margin-top: 4px; }
+        .login-sub { font-size: 13px; color: #64748b; margin-top: 4px; margin-bottom: 24px; }
+
         .form-group { margin-bottom: 18px; }
         .form-label { font-size: 13px; font-weight: 600; color: #374151; display: block; margin-bottom: 6px; }
         .form-input {
@@ -72,6 +73,8 @@ export default function LoginPage() {
           font-size: 15px; font-weight: 700;
           transition: opacity 0.15s;
           margin-top: 6px;
+          cursor: pointer;
+          border: none;
         }
         .login-btn:hover:not(:disabled) { opacity: 0.9; }
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -88,8 +91,8 @@ export default function LoginPage() {
       <div className="login-card">
         <div className="login-logo">
           <div className="login-logo-icon">⚕️</div>
-          <div className="login-title">Novamax Admin</div>
-          <div className="login-sub">Sign in to manage your platform</div>
+          <div className="login-title">Novamax Network</div>
+          <div className="login-sub">Sign in to your Admin Account</div>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -128,7 +131,7 @@ export default function LoginPage() {
         </form>
 
         <div className="demo-hint">
-          <strong>🔑 Default Credentials</strong>
+          <strong>🔑 Default Admin Credentials</strong>
           Email: admin@novamaxfoundation.org<br />
           Password: Admin@123
         </div>

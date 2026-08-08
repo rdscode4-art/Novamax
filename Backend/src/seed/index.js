@@ -70,10 +70,10 @@ const seed = async () => {
     console.log('🗑️  Cleared existing data');
 
     // Seed Admin
-    await Admin.create({
+    const admin = await Admin.create({
       name: 'Super Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@novamaxfoundation.org',
-      password: process.env.ADMIN_PASSWORD || 'Admin@123',
+      email: 'admin@novamaxfoundation.org',
+      password: 'Admin@123',
       role: 'superadmin',
     });
     console.log('✅ Admin seeded');
@@ -96,9 +96,9 @@ const seed = async () => {
     await Project.insertMany(projects);
     console.log(`✅ ${projects.length} projects seeded`);
 
-    console.log('\n🎉 Database seeded successfully!');
-    console.log(`📧 Admin Email: ${process.env.ADMIN_EMAIL || 'admin@novamaxfoundation.org'}`);
-    console.log(`🔑 Admin Password: ${process.env.ADMIN_PASSWORD || 'Admin@123'}`);
+    console.log('🎉 Database seeded successfully!');
+    console.log('📧 Admin Email: admin@novamaxfoundation.org');
+    console.log('🔑 Admin Password: Admin@123\n');
     process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err.message);

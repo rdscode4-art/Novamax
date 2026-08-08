@@ -23,6 +23,7 @@ export default function PartnerApplicationsPage() {
   const [filterStatus, setFilterStatus] = useState('');
   const [viewItem, setViewItem] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [approveModal, setApproveModal] = useState(null);
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
@@ -47,12 +48,38 @@ export default function PartnerApplicationsPage() {
   useEffect(() => { fetchData(1); }, [fetchData]);
 
   const updateStatus = async (id, status) => {
+    if (status === 'approved') {
+      setApproveModal(id);
+      return;
+    }
     try {
       await api.patch(`/admin/partner-applications/${id}`, { status });
       toast.success('Status updated');
       fetchData(pagination.page);
       if (viewItem?._id === id) setViewItem(p => ({ ...p, status }));
     } catch { toast.error('Update failed'); }
+  };
+
+  const handleApprove = async (e) => {
+    e.preventDefault();
+    if (!approveModal) return;
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      if (e.target.idCard.files[0]) formData.append('idCard', e.target.idCard.files[0]);
+      if (e.target.joiningLetter.files[0]) formData.append('joiningLetter', e.target.joiningLetter.files[0]);
+      
+      const res = await api.post(`/admin/partner-applications/${approveModal}/approve`, formData);
+      toast.success('Application approved & Portal User created!');
+      toast.success(`Generated Password: ${res.data.data.generatedPassword}`, { duration: 10000 });
+      setApproveModal(null);
+      fetchData(pagination.page);
+      if (viewItem?._id === approveModal) setViewItem(p => ({ ...p, status: 'approved' }));
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to approve application');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -143,6 +170,29 @@ export default function PartnerApplicationsPage() {
           <button onClick={() => setDeleteConfirm(null)} style={{ padding: '8px 16px', background: '#f1f5f9', borderRadius: 7, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
           <button onClick={() => handleDelete(deleteConfirm)} style={{ padding: '8px 16px', background: '#dc2626', color: '#fff', borderRadius: 7, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Delete</button>
         </div>
+      </Modal>
+
+      <Modal open={!!approveModal} onClose={() => setApproveModal(null)} title="Approve & Generate Portal Credentials" size="md">
+        <form onSubmit={handleApprove}>
+          <p style={{ fontSize: 14, color: '#374151', marginBottom: 16 }}>
+            Approving this application will generate a Portal User account for the partner. 
+            You can optionally upload their official ID Card and Joining Letter now.
+          </p>
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Upload ID Card (PDF/Image)</label>
+            <input type="file" name="idCard" accept=".pdf,image/*" style={{ width: '100%', padding: 8, border: '1px solid #e2e8f0', borderRadius: 6 }} />
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Upload Joining Letter (PDF/Image)</label>
+            <input type="file" name="joiningLetter" accept=".pdf,image/*" style={{ width: '100%', padding: 8, border: '1px solid #e2e8f0', borderRadius: 6 }} />
+          </div>
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+            <button type="button" onClick={() => setApproveModal(null)} style={{ padding: '8px 16px', background: '#f1f5f9', borderRadius: 7, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+            <button type="submit" disabled={loading} style={{ padding: '8px 16px', background: '#16a34a', color: '#fff', borderRadius: 7, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: 'none' }}>
+              {loading ? 'Approving...' : 'Approve Application'}
+            </button>
+          </div>
+        </form>
       </Modal>
     </div>
   );

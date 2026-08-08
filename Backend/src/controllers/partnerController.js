@@ -56,6 +56,46 @@ exports.updateStatus = async (req, res, next) => {
   }
 };
 
+// @POST /api/admin/partner-applications/:id/approve — Admin
+exports.approveApplication = async (req, res, next) => {
+  try {
+    const app = await PartnerApplication.findById(req.params.id);
+    if (!app) return res.status(404).json({ success: false, message: 'Not found' });
+    if (app.status === 'approved') return res.status(400).json({ success: false, message: 'Already approved' });
+
+    let idCardUrl = null;
+    let joiningLetterUrl = null;
+
+    if (req.files) {
+      if (req.files.idCard) idCardUrl = `/uploads/${req.files.idCard[0].filename}`;
+      if (req.files.joiningLetter) joiningLetterUrl = `/uploads/${req.files.joiningLetter[0].filename}`;
+    }
+
+    app.status = 'approved';
+    await app.save();
+
+    const PortalUser = require('../models/PortalUser');
+    
+    // Auto-generate a password
+    const generatedPassword = Math.random().toString(36).slice(-8);
+
+    const portalUser = await PortalUser.create({
+      email: app.email,
+      password: generatedPassword,
+      fullName: app.name,
+      role: 'partner',
+      referenceId: app._id,
+      referenceModel: 'PartnerApplication',
+      idCardUrl,
+      joiningLetterUrl
+    });
+
+    return successResponse(res, { application: app, user: portalUser, generatedPassword }, 'Application approved and Portal User created');
+  } catch (err) {
+    next(err);
+  }
+};
+
 // @DELETE /api/admin/partner-applications/:id — Admin
 exports.deleteApplication = async (req, res, next) => {
   try {
